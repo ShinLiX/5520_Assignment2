@@ -6,7 +6,7 @@ export default function Diet() {
   return (
     <View>
       <Text>Diet</Text>
-      <ItemsList type="diet" />
+      <ItemsList type="diets" />
     </View>
   )
 }

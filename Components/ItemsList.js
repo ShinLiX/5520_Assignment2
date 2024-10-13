@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text,FlatList} from 'react-native'
-import { useData } from '../DataContext';
+import { useData } from '../Context';
 
 export default function ItemsList({ type }) {
   const data = useData();
-  const items = type === 'activity' ? data.activities : data.diets;  
+  const items = type === 'activities' ? data.activities : data.diets;  
   return (
     <View>
         <FlatList

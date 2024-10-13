@@ -6,7 +6,8 @@ export default function Activities() {
   return (
     <View>
       <Text>Activities</Text>
-      <ItemsList type="activity" />
+      <ItemsList type="activities" />
+      
     </View>
   )
 }
