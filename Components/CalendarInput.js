@@ -5,12 +5,14 @@ import { format } from 'date-fns';
 import { useTheme } from '../ThemeContext';
 import commonStyles from '../styles';
 
-
+// CalendarInput component
 export default function CalendarInput({date, setDate, datePicker, datePickerHandler}) {
-
+  // Use the useTheme hook to access the theme
   const {theme} = useTheme();
+  // Format the date to display in the
   const displayDate = date ? format(date, 'EEE, MMM dd, yyyy'):'';
 
+  // Return the JSX to display the input field and the date picker
   return (
     <View>
       <TextInput
@@ -39,7 +41,3 @@ export default function CalendarInput({date, setDate, datePicker, datePickerHand
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  
-});
