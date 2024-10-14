@@ -23,5 +23,28 @@ const commonStyles = StyleSheet.create({
         justifyContent: 'space-around',
         width: '100%',
     },
+    itemContainer: {
+        flexDirection: 'row',
+        backgroundColor: '#420c6e',
+        padding: 8,
+        paddingHorizontal: 10,
+        justifyContent: 'space-between',
+        margin: 8,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    textItem: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#fff',
+        paddingEnd: 10,
+    },
+    textContainer: {
+        backgroundColor: '#fff',
+        color:'black',
+        margin: 2,
+        padding: 6,
+        paddingHorizontal: 10,
+    },
 });
 export default commonStyles;

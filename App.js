@@ -19,7 +19,10 @@ const Tab = createBottomTabNavigator();
 
 function ActivitiesStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{ headerStyle: {backgroundColor: '#420c6e'},
+                       headerTintColor: '#fff',}}
+      >
       <Stack.Screen
         name="ActivitiesHome"
         component={Activities}
@@ -29,7 +32,7 @@ function ActivitiesStack() {
             <Button
               onPress={() => navigation.navigate('AddActivityScreen')}
               title="Add"
-              color="blue"
+              color="green"
             />
           ),
         })}
@@ -45,7 +48,10 @@ function ActivitiesStack() {
 
 function DietsStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{ headerStyle: {backgroundColor: '#420c6e'},
+                     headerTintColor: '#fff',}}
+    >
       <Stack.Screen
         name="DietsHome"
         component={Diet}
@@ -55,7 +61,7 @@ function DietsStack() {
             <Button
               onPress={() => navigation.navigate('AddDietScreen')}
               title="Add"
-              color="blue"
+              color="green"
             />
           ),
         })}
@@ -71,7 +77,10 @@ function DietsStack() {
 
 function SettingsStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{ headerStyle: {backgroundColor: '#420c6e'},
+                     headerTintColor: '#fff',}}
+    >
       <Stack.Screen
         name="SettingsHome"
         component={Settings}
@@ -83,18 +92,18 @@ function SettingsStack() {
 
 function MyTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false}}>
+    <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: 'yellow', tabBarStyle: {backgroundColor: '#420c6e'}}}>
       <Tab.Screen name="ActivitiesTab" component={ActivitiesStack} 
-        options={{tabBarIcon: ({ color, size }) => (
-        <MaterialCommunityIcons name="run" size={24} color="black" />
+        options={{tabBarIcon: ({ focused }) => (
+        <MaterialCommunityIcons name="run" size={24} color={focused? 'yellow':"gray"} />
       )}} />
       <Tab.Screen name="DietsTab" component={DietsStack} 
-        options={{tabBarIcon: ({ color, size }) => (
-        <Ionicons name="fast-food" size={24} color="black" />
+        options={{tabBarIcon: ({ focused }) => (
+        <Ionicons name="fast-food" size={24} color={focused? "yellow" : "gray"} />
       )}} />  
       <Tab.Screen name="SettingsTab" component={SettingsStack} 
-        options={{tabBarIcon: ({ color, size }) => (
-        <Ionicons name="settings" size={24} color="black" />
+        options={{tabBarIcon: ({ focused }) => (
+        <Ionicons name="settings" size={24} color={focused? "yellow": "gray"} />
       )}}/>
     </Tab.Navigator>
   );
