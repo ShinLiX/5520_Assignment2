@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import { View, Text } from 'react-native';
 
-
+// Define the light and dark themes
 const lightTheme = {
     backgroundColor: '#b49fbf',
     textColor: '#521b6e',

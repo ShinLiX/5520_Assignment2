@@ -14,9 +14,11 @@ import { ThemeProvider } from './ThemeContext';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+// Create the Stack and Tab navigators
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Create the Stacks for the Activities, Diets, and Settings screens
 function ActivitiesStack() {
   return (
     <Stack.Navigator
@@ -90,6 +92,7 @@ function SettingsStack() {
   );
 }
 
+// Create function that will navigate between the Activities, Diets, and Settings screens
 function MyTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: 'yellow', tabBarStyle: {backgroundColor: '#420c6e'}}}>
@@ -109,6 +112,7 @@ function MyTabs() {
   );
 }
 
+// Create the App component
 export default function App() {
   return (
     <ThemeProvider>

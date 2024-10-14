@@ -9,22 +9,25 @@ import { useTheme } from '../ThemeContext';
 import commonStyles from '../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+// AddActivity component
 export default function AddActivity({ navigation }) {
     const { addActivity } = useContext(Context); // Use useContext to access addActivity
-    const [type, setType] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([
+    const [type, setType] = useState(null); // Track the type of activity
+    const [open, setOpen] = useState(false); // Track if the dropdown is open
+    const [items, setItems] = useState([ // List of activity types
         { label: 'Walking', value: 'Walking' },
         { label: 'Running', value: 'Running' },
         { label: 'Swimming', value: 'Swimming' },
         { label: 'Weights', value: 'Weights' },
         { label: 'Yoga', value: 'Yoga' },
     ]);
-    const [date, setDate] = useState(null);
-    const [duration, setDuration] = useState('');
-    const { theme } = useTheme();
-    const [showDatePicker, setShowDatePicker] = useState(false);
 
+    const [date, setDate] = useState(null); // Track the date
+    const [duration, setDuration] = useState(''); // Track the duration
+    const { theme } = useTheme(); // Use the useTheme hook to access the theme
+    const [showDatePicker, setShowDatePicker] = useState(false); // Track if the date picker is open
+
+    // Function to handle saving the activity
     const handleSave = () => {
         const durationNum = parseInt(duration);
         if (!type || durationNum <= 0 || isNaN(durationNum)) {

@@ -7,10 +7,9 @@ import commonStyles from '../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ItemsList({ type }) {
-  // Use the DataContext to access the shared state
+  // Use the Context to access the shared state
   const { diets, activities } = useContext(Context);
   const items = type === 'diets' ? diets : activities;
-  console.log({ items });
 
   return (
     <SafeAreaView>

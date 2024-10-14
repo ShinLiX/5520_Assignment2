@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+// Create a commonStyles object to store the styles that are shared across files
 const commonStyles = StyleSheet.create({
     input: {
         borderWidth: 1.5,
