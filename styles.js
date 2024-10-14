@@ -8,7 +8,7 @@ const commonStyles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 18,
         color: '#521b6e',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#bcb8bf',
     },
     text: {
         fontSize: 14,

@@ -55,6 +55,7 @@ export default function AddActivity({ navigation }) {
                 placeholder="Select an activity type"
                 zIndex={3000}
                 zIndexInverse={1000}
+                style={{backgroundColor: '#bcb8bf'}}
             />
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Duration (min) *</Text>
             <TextInput
