@@ -2,13 +2,18 @@ import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, Alert, Text, StyleSheet } from 'react-native';
 import CalendarInput from '../Components/CalendarInput';
 import { Context } from '../Context'; 
+import { useTheme } from '../ThemeContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import commonStyles from '../styles';
 
 
 export default function AddDiet({ navigation }) {
     const { addDiet } = useContext(Context); // Access addDiet from Context
     const [description, setDescription] = useState(''); // Description input
     const [calories, setCalories] = useState(''); // Calories input
-    const [date, setDate] = useState(null); // Date input (initially null)
+    const [date, setDate] = useState(null); // Date input 
+    const { theme } = useTheme();
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     // Handle Save button press
     const handleSave = () => {
@@ -36,32 +41,32 @@ export default function AddDiet({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
-            <Text>Description *</Text>
+        <SafeAreaView style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+            <Text style={[commonStyles.text, {color: theme.textColor}]}>Description *</Text>
             <TextInput
-                style={styles.input}
+                style={[commonStyles.input, {height: 80}]}
                 onChangeText={setDescription}
                 value={description}
-                placeholder="Enter meal description"
+                multiline={true}
+                numberOfLines={4}  
             />
 
-            <Text>Calories *</Text>
+            <Text style={[commonStyles.text, {color: theme.textColor}]}>Calories *</Text>
             <TextInput
-                style={styles.input}
+                style={commonStyles.input}
                 onChangeText={setCalories}
                 value={calories}
                 keyboardType="numeric"
-                placeholder="Enter calories"
             />
 
-            <Text>Date *</Text>
-            <CalendarInput date={date} setDate={setDate} />
+            <Text style={[commonStyles.text, {color: theme.textColor}]}>Date *</Text>
+            <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker} />
 
-            <View style={styles.buttonContainer}>
-                <Button title="Save" onPress={handleSave} />
-                <Button title="Cancel" onPress={() => navigation.goBack()} />
-            </View>
-        </View>
+            {!showDatePicker && <View style={commonStyles.buttonContainer}>
+              <Button title="Cancel" onPress={() => navigation.goBack()} />
+              <Button title="Save" onPress={handleSave} />  
+            </View>}
+        </SafeAreaView>
     );
 }
 
@@ -69,16 +74,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        justifyContent: 'center',
     },
-    input: {
-        borderWidth: 1,
-        borderColor: 'gray',
-        padding: 10,
-        marginBottom: 20,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }
+    
 });

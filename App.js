@@ -10,6 +10,9 @@ import AddDiet from './Screens/AddDiet';
 import { StyleSheet } from 'react-native';
 import { DataProvider } from './Context';
 import { Button } from 'react-native';
+import { ThemeProvider } from './ThemeContext';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,7 +63,7 @@ function DietsStack() {
       <Stack.Screen
         name="AddDietScreen"
         component={AddDiet}
-        options={{ title: 'Add A Diet' }}
+        options={{ title: 'Add A Diet Entry' }}
       />
     </Stack.Navigator>
   );
@@ -81,15 +84,25 @@ function SettingsStack() {
 function MyTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false}}>
-      <Tab.Screen name="ActivitiesTab" component={ActivitiesStack} />
-      <Tab.Screen name="DietsTab" component={DietsStack} />
-      <Tab.Screen name="SettingsTab" component={SettingsStack} />
+      <Tab.Screen name="ActivitiesTab" component={ActivitiesStack} 
+        options={{tabBarIcon: ({ color, size }) => (
+        <MaterialCommunityIcons name="run" size={24} color="black" />
+      )}} />
+      <Tab.Screen name="DietsTab" component={DietsStack} 
+        options={{tabBarIcon: ({ color, size }) => (
+        <Ionicons name="fast-food" size={24} color="black" />
+      )}} />  
+      <Tab.Screen name="SettingsTab" component={SettingsStack} 
+        options={{tabBarIcon: ({ color, size }) => (
+        <Ionicons name="settings" size={24} color="black" />
+      )}}/>
     </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
+    <ThemeProvider>
     <DataProvider>
     <NavigationContainer>
       <Stack.Navigator>
@@ -97,6 +110,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
     </DataProvider>
+    </ThemeProvider>
   );
 }
 
@@ -104,7 +118,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    
   },
 });

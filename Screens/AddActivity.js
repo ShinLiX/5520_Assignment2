@@ -5,6 +5,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Context } from '../Context'; // Import the context
 import { format } from 'date-fns';
 import CalendarInput from '../Components/CalendarInput';
+import { useTheme } from '../ThemeContext';
+import commonStyles from '../styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AddActivity({ navigation }) {
     const { addActivity } = useContext(Context); // Use useContext to access addActivity
@@ -19,6 +22,8 @@ export default function AddActivity({ navigation }) {
     ]);
     const [date, setDate] = useState(null);
     const [duration, setDuration] = useState('');
+    const { theme } = useTheme();
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleSave = () => {
         const durationNum = parseInt(duration);
@@ -38,8 +43,8 @@ export default function AddActivity({ navigation }) {
     
 
     return (
-        <View style={styles.container}>
-            <Text>Activity *</Text>
+        <SafeAreaView style={[styles.container, {backgroundColor:theme.backgroundColor}]}>
+            <Text style={[commonStyles.text, {color: theme.textColor}]}>Activity *</Text>
             <DropdownPicker
                 open={open}
                 value={type}
@@ -51,21 +56,21 @@ export default function AddActivity({ navigation }) {
                 zIndex={3000}
                 zIndexInverse={1000}
             />
-            <Text>Duration (min) *</Text>
+            <Text style={[commonStyles.text, {color: theme.textColor}]}>Duration (min) *</Text>
             <TextInput
-                style={styles.input}
+                style={commonStyles.input}
                 onChangeText={setDuration}
                 value={duration}
                 keyboardType="numeric"
             />
-            <Text>Date *</Text>
-            <CalendarInput date={date} setDate={setDate} />
+            <Text style={[commonStyles.text, {color: theme.textColor}]}>Date *</Text>
+            <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker}/>
             
-            <View>
+            {!showDatePicker && <View style={commonStyles.buttonContainer}>
               <Button title="Cancel" onPress={() => navigation.goBack()} />
               <Button title="Save" onPress={handleSave} />
-            </View>
-        </View>
+            </View>}
+        </SafeAreaView>
     );
 }
 
@@ -73,13 +78,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        justifyContent: 'center',
-        alignItems: 'stretch',
     },
-    input: {
-        borderWidth: 1,
-        borderColor: 'gray',
-        padding: 10,
-        marginBottom: 20,
-    }
 });

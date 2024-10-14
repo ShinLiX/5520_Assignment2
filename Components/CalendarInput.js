@@ -2,25 +2,26 @@ import React, {useState} from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
+import { useTheme } from '../ThemeContext';
+import commonStyles from '../styles';
 
 
-export default function CalendarInput({date, setDate}) {
+export default function CalendarInput({date, setDate, datePicker, datePickerHandler}) {
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
+  const {theme} = useTheme();
   const displayDate = date ? format(date, 'EEE, MMM dd, yyyy'):'';
 
   return (
     <View>
       <TextInput
-        style={styles.input}
+        style={commonStyles.input}
         value={displayDate}
         onFocus={() => {
           console.log('onFocus'); // Correct place for console.log
-          setShowDatePicker(true);
+          datePickerHandler(true);
         }}
         />
-        {showDatePicker && (
+        {datePicker && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date || new Date()} 
@@ -28,7 +29,7 @@ export default function CalendarInput({date, setDate}) {
             display="inline"
             onChange={(event, selectedDate) => {
               console.log('Date picked:', selectedDate); 
-              setShowDatePicker(false);
+              datePickerHandler(false);
               if (selectedDate) {
                 setDate(selectedDate);
               }
@@ -40,10 +41,5 @@ export default function CalendarInput({date, setDate}) {
 }
 
 const styles = StyleSheet.create({
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    marginBottom: 20,
-  },
+  
 });
