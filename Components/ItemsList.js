@@ -12,7 +12,7 @@ export default function ItemsList({ type }) {
   const items = type === 'diets' ? diets : activities;
 
   return (
-    <SafeAreaView>
+    
       <FlatList
         data={items}
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -33,17 +33,19 @@ export default function ItemsList({ type }) {
               <>
                 <Text style={commonStyles.textItem}>{item.type}</Text>
                 {item.special ? <AntDesign style={{paddingHorizontal: 8}} name="warning" size={24} color="red"/>: <Text>            </Text>}
+                <View style={commonStyles.dataContainer}>
                 <View style={commonStyles.textContainer}>
                   <Text style={{fontWeight: 'bold'}}>{format(new Date(item.date), 'EEE MMM dd yyyy')}</Text>
                 </View>
                 <View style={commonStyles.textContainer}>
                   <Text style={{fontWeight: 'bold'}}>{item.duration} min</Text>
                 </View>
+                </View>
               </>
             )}
           </View>
         )}
       />
-    </SafeAreaView>
+    
   );
 }
