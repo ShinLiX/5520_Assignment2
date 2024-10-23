@@ -8,6 +8,7 @@ import CalendarInput from '../Components/CalendarInput';
 import { useTheme } from '../ThemeContext';
 import commonStyles from '../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import PressableButton from '../Components/PressableButton';
 
 // AddActivity component
 export default function AddActivity({ navigation }) {
@@ -71,8 +72,12 @@ export default function AddActivity({ navigation }) {
             <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker}/>
             
             {!showDatePicker && <View style={commonStyles.buttonContainer}>
-              <Button title="Cancel" onPress={() => navigation.goBack()} />
-              <Button title="Save" onPress={handleSave} />
+              <PressableButton 
+                pressedFunction={()=>navigation.goBack()}
+                componentStyle={{backgroundColor: '#f194ff'}}
+              ></PressableButton>
+              {/* <Button title="Cancel" onPress={() => navigation.goBack()} />
+              <Button title="Save" onPress={handleSave} /> */}
             </View>}
         </SafeAreaView>
     );
