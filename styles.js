@@ -28,9 +28,9 @@ const commonStyles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#420c6e',
         padding: 8,
-        paddingHorizontal: 10,
-        justifyContent: 'space-between',
-        margin: 8,
+        //paddingHorizontal: 10,
+        justifyContent: 'space-around',
+        margin: 10,
         borderRadius: 5,
         alignItems: 'center',
     },
@@ -46,6 +46,12 @@ const commonStyles = StyleSheet.create({
         margin: 2,
         padding: 6,
         paddingHorizontal: 10,
+        minWidth: 90,
+        alignItems: 'center',
+    },
+    dataContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
     },
 });
 export default commonStyles;
