@@ -5,6 +5,7 @@ import { Context } from '../Context';
 import { useTheme } from '../ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import commonStyles from '../styles';
+import PressableButton from '../Components/PressableButton';
 
 
 export default function AddDiet({ navigation }) {
@@ -41,7 +42,7 @@ export default function AddDiet({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+        <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Description *</Text>
             <TextInput
                 style={[commonStyles.input, {height: 80}]}
@@ -63,10 +64,22 @@ export default function AddDiet({ navigation }) {
             <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker} />
 
             {!showDatePicker && <View style={commonStyles.buttonContainer}>
-              <Button title="Cancel" onPress={() => navigation.goBack()} />
-              <Button title="Save" onPress={handleSave} />  
+            <PressableButton 
+                pressedFunction={()=>navigation.goBack()}
+                componentStyle={commonStyles.buttonStyle}
+                pressedStyle={commonStyles.pressedStyle}
+              >
+                <Text style={commonStyles.buttonText}>Cancel</Text>
+              </PressableButton>
+              <PressableButton
+                pressedFunction={handleSave}
+                componentStyle={commonStyles.buttonStyle}
+                pressedStyle={commonStyles.pressedStyle}
+              >
+                <Text style={commonStyles.buttonText}>Save</Text>
+                </PressableButton>
             </View>}
-        </SafeAreaView>
+        </View>
     );
 }
 

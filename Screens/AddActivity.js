@@ -47,7 +47,7 @@ export default function AddActivity({ navigation }) {
     
 
     return (
-        <SafeAreaView style={[styles.container, {backgroundColor:theme.backgroundColor}]}>
+        <View style={[styles.container, {backgroundColor:theme.backgroundColor}]}>
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Activity *</Text>
             <DropdownPicker
                 open={open}
@@ -74,12 +74,20 @@ export default function AddActivity({ navigation }) {
             {!showDatePicker && <View style={commonStyles.buttonContainer}>
               <PressableButton 
                 pressedFunction={()=>navigation.goBack()}
-                componentStyle={{backgroundColor: '#f194ff'}}
-              ></PressableButton>
-              {/* <Button title="Cancel" onPress={() => navigation.goBack()} />
-              <Button title="Save" onPress={handleSave} /> */}
+                componentStyle={commonStyles.buttonStyle}
+                pressedStyle={commonStyles.pressedStyle}
+              >
+                <Text style={commonStyles.buttonText}>Cancel</Text>
+              </PressableButton>
+              <PressableButton
+                pressedFunction={handleSave}
+                componentStyle={commonStyles.buttonStyle}
+                pressedStyle={commonStyles.pressedStyle}
+              >
+                <Text style={commonStyles.buttonText}>Save</Text>
+                </PressableButton>
             </View>}
-        </SafeAreaView>
+        </View>
     );
 }
 

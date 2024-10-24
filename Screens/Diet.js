@@ -9,9 +9,9 @@ export default function Diet() {
   const { theme } = useTheme();
   // import ItemsList component and pass in the type as 'diets' to display the list of diets
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+    <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       <ItemsList type="diets" />
-    </SafeAreaView>
+    </View>
   )
 }
 const styles = StyleSheet.create({

@@ -20,6 +20,7 @@ const commonStyles = StyleSheet.create({
     buttonContainer: {
         position: 'absolute',
         bottom: 30,
+        left: 20,
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
@@ -52,6 +53,21 @@ const commonStyles = StyleSheet.create({
     dataContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
+    },
+    buttonStyle: {
+        backgroundColor: '#754ba6',
+        padding: 10,
+        borderRadius: 5,
+        minwidth: 100,
+        alignItems: 'center',
+    },
+    pressedStyle: {
+        backgroundColor: '#754ba6',
+        opacity: 0.2,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 15,
     },
 });
 export default commonStyles;
