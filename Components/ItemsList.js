@@ -25,6 +25,7 @@ export default function ItemsList({ type, navigation }) {
               navigation.navigate('EditActivityScreen', {item})
               }
             }
+            componentStyle={{ backgroundColor: 'transparent'}}
           >
           <View style={commonStyles.itemContainer}>
             {type === 'diets' ? (
