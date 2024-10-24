@@ -7,12 +7,17 @@ import Diet from './Screens/Diet';
 import Settings from './Screens/Settings';
 import AddActivity from './Screens/AddActivity';
 import AddDiet from './Screens/AddDiet';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { DataProvider } from './Context';
 import { Button } from 'react-native';
 import { ThemeProvider } from './ThemeContext';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import PressableButton from './Components/PressableButton';
+import commonStyles from './styles';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import EditActivity from './Screens/EditActivity';
+import EditDiet from './Screens/EditDiet';
 
 // Create the Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -31,11 +36,16 @@ function ActivitiesStack() {
         options={({ navigation }) => ({
           title: 'Activities',
           headerRight: () => (
-            <Button
-              onPress={() => navigation.navigate('AddActivityScreen')}
-              title="Add"
-              color="green"
-            />
+            <PressableButton
+              pressedFunction={() => navigation.navigate('AddActivityScreen')}
+              componentStyle={{backgroundColor: '#420c6e'}}
+              pressedStyle={commonStyles.pressedIcon}
+            >
+              <View style={commonStyles.iconContainer}>
+              <Ionicons name="add-outline" size={24} color="white" />
+              <MaterialCommunityIcons name="run" size={24} color="white" />
+              </View>
+            </PressableButton>
           ),
         })}
       />
@@ -43,6 +53,22 @@ function ActivitiesStack() {
         name="AddActivityScreen"
         component={AddActivity}
         options={{ title: 'Add An Activity' }}
+      />
+      <Stack.Screen
+        name="EditActivityScreen"
+        component={EditActivity}
+        options={() => ({
+           title: 'Edit',
+           headerRight: () => (
+             <PressableButton
+                pressedFunction={() => console.log('Delete')}
+                componentStyle={{backgroundColor: '#420c6e'}}
+                pressedStyle={commonStyles.pressedIcon}
+              >
+              <MaterialIcons name="delete" size={24} color="white" />
+              </PressableButton>
+           ),
+        })}
       />
     </Stack.Navigator>
   );
@@ -60,11 +86,16 @@ function DietsStack() {
         options={({ navigation }) => ({
           title: 'Diets',
           headerRight: () => (
-            <Button
-              onPress={() => navigation.navigate('AddDietScreen')}
-              title="Add"
-              color="green"
-            />
+            <PressableButton
+              pressedFunction={() => navigation.navigate('AddDietScreen')}
+              componentStyle={{backgroundColor: '#420c6e'}}
+              pressedStyle={commonStyles.pressedIcon}
+            >
+              <View style={commonStyles.iconContainer}>
+              <Ionicons name="add-outline" size={24} color="white" />
+              <Ionicons name="fast-food" size={23} color="white" />
+              </View>
+            </PressableButton>
           ),
         })}
       />
@@ -72,6 +103,22 @@ function DietsStack() {
         name="AddDietScreen"
         component={AddDiet}
         options={{ title: 'Add A Diet Entry' }}
+      />
+      <Stack.Screen
+        name="EditDietScreen"
+        component={EditDiet}
+        options={() => ({
+           title: 'Edit',
+           headerRight: () => (
+             <PressableButton
+                pressedFunction={() => console.log('Delete')}
+                componentStyle={{backgroundColor: '#420c6e'}}
+                pressedStyle={commonStyles.pressedIcon}
+              >
+              <MaterialIcons name="delete" size={24} color="white" />
+              </PressableButton>
+           ),
+        })}
       />
     </Stack.Navigator>
   );

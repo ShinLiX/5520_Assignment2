@@ -5,12 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../ThemeContext';
 
 // Diet component
-export default function Diet() {
+export default function Diet({navigation}) {
   const { theme } = useTheme();
   // import ItemsList component and pass in the type as 'diets' to display the list of diets
   return (
     <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
-      <ItemsList type="diets" />
+      <ItemsList type="diets" navigation={navigation} />
     </View>
   )
 }

@@ -5,8 +5,9 @@ import { format } from 'date-fns';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import commonStyles from '../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import PressableButton from '../Components/PressableButton';
 
-export default function ItemsList({ type }) {
+export default function ItemsList({ type, navigation }) {
   // Use the Context to access the shared state
   const { diets, activities } = useContext(Context);
   const items = type === 'diets' ? diets : activities;
@@ -15,8 +16,16 @@ export default function ItemsList({ type }) {
     
       <FlatList
         data={items}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ paddingBottom: 20, paddingTop: 20 }}
         renderItem={({ item }) => (
+          <PressableButton
+            pressedFunction={()=>{
+              return type === 'diets' ? 
+              navigation.navigate('EditDietScreen', {item}) : 
+              navigation.navigate('EditActivityScreen', {item})
+              }
+            }
+          >
           <View style={commonStyles.itemContainer}>
             {type === 'diets' ? (
               <>
@@ -44,6 +53,7 @@ export default function ItemsList({ type }) {
               </>
             )}
           </View>
+          </PressableButton>
         )}
       />
     

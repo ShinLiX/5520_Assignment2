@@ -69,5 +69,14 @@ const commonStyles = StyleSheet.create({
         color: '#fff',
         fontSize: 15,
     },
+    iconContainer: {
+        flexDirection: 'row',
+        borderRadius: 5,
+    },
+    pressedIcon: {
+        backgroundColor: '#754ba6',
+        opacity: 0.2,
+        borderRadius: 50,
+    },
 });
 export default commonStyles;
