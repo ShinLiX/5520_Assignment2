@@ -47,8 +47,9 @@ const commonStyles = StyleSheet.create({
         margin: 2,
         padding: 6,
         paddingHorizontal: 10,
-        minWidth: 90,
+        minWidth: 100,
         alignItems: 'center',
+        
     },
     dataContainer: {
         flexDirection: 'row',
