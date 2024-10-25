@@ -6,6 +6,7 @@ import { useTheme } from '../ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import commonStyles from '../styles';
 import PressableButton from '../Components/PressableButton';
+import { writeToDB } from '../Firebase/firebaseHelper';
 
 
 export default function AddDiet({ navigation }) {
@@ -35,6 +36,7 @@ export default function AddDiet({ navigation }) {
         };
 
         // Add diet to context
+        writeToDB(newDiet, 'diets');
         addDiet(newDiet);
 
         // Navigate back to the previous screen

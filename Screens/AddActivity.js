@@ -9,6 +9,7 @@ import { useTheme } from '../ThemeContext';
 import commonStyles from '../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PressableButton from '../Components/PressableButton';
+import { writeToDB } from '../Firebase/firebaseHelper';
 
 // AddActivity component
 export default function AddActivity({ navigation }) {
@@ -41,6 +42,7 @@ export default function AddActivity({ navigation }) {
             date,
             special: (type === 'Running' || type === 'Weights') && durationNum > 60
         };
+        writeToDB(newActivity, 'activities');
         addActivity(newActivity);
         navigation.goBack();
     };
