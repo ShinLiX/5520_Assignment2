@@ -7,7 +7,7 @@ import Diet from './Screens/Diet';
 import Settings from './Screens/Settings';
 import AddActivity from './Screens/AddActivity';
 import AddDiet from './Screens/AddDiet';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert} from 'react-native';
 import { DataProvider } from './Context';
 import { Button } from 'react-native';
 import { ThemeProvider } from './ThemeContext';
@@ -18,6 +18,8 @@ import commonStyles from './styles';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import EditActivity from './Screens/EditActivity';
 import EditDiet from './Screens/EditDiet';
+import { deleteFromDB } from './Firebase/firebaseHelper';
+import { de } from 'date-fns/locale';
 
 // Create the Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -57,11 +59,20 @@ function ActivitiesStack() {
       <Stack.Screen
         name="EditActivityScreen"
         component={EditActivity}
-        options={() => ({
+        options={({route, navigation}) => ({
            title: 'Edit',
            headerRight: () => (
              <PressableButton
-                pressedFunction={() => console.log('Delete')}
+                pressedFunction={() => {
+                  Alert.alert('Delete', 'Are you sure you want to delete this item?', [
+                    {text: 'No', style: 'cancel'},
+                    {text: 'Yes', onPress: () => {
+                      deleteFromDB(route.params.item.id, 'activities')
+                      .then(() => navigation.goBack())
+                      .catch((error) => console.log('Error deleting document: ', error))}
+                    }
+                  ]);
+                }}
                 componentStyle={{backgroundColor: '#420c6e'}}
                 pressedStyle={commonStyles.pressedIcon}
               >
@@ -107,11 +118,20 @@ function DietsStack() {
       <Stack.Screen
         name="EditDietScreen"
         component={EditDiet}
-        options={() => ({
+        options={({route}) => ({
            title: 'Edit',
            headerRight: () => (
              <PressableButton
-                pressedFunction={() => console.log('Delete')}
+                pressedFunction={() => {
+                  Alert.alert('Delete', 'Are you sure you want to delete this item?', [
+                    {text: 'No', style: 'cancel'},
+                    {text: 'Yes', onPress: () => {
+                      deleteFromDB(route.params.item.id, 'diets')
+                      .then(() => navigation.goBack())
+                      .catch((error) => console.log('Error deleting document: ', error))}
+                    }
+                  ]);
+                }}
                 componentStyle={{backgroundColor: '#420c6e'}}
                 pressedStyle={commonStyles.pressedIcon}
               >

@@ -1,22 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, TextInput, Button, Alert, Text, StyleSheet } from 'react-native';
 import DropdownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Context } from '../Context'; // Import the context
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import CalendarInput from '../Components/CalendarInput';
 import { useTheme } from '../ThemeContext';
 import commonStyles from '../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PressableButton from '../Components/PressableButton';
-import { writeToDB } from '../Firebase/firebaseHelper';
+import { writeToDB, updateDB } from '../Firebase/firebaseHelper';
+import { ro } from 'date-fns/locale';
+import Checkbox from 'expo-checkbox';
 
 // AddActivity component
-export default function AddActivity({ navigation }) {
-    const { addActivity } = useContext(Context); // Use useContext to access addActivity
+export default function AddActivity({ navigation, route }) {
+    //const { addActivity } = useContext(Context); // Use useContext to access addActivity
     const [type, setType] = useState(null); // Track the type of activity
     const [open, setOpen] = useState(false); // Track if the dropdown is open
-    const [items, setItems] = useState([ // List of activity types
+    const [sportTypes, setSportTypes] = useState([ // List of activity types
         { label: 'Walking', value: 'Walking' },
         { label: 'Running', value: 'Running' },
         { label: 'Swimming', value: 'Swimming' },
@@ -24,10 +26,24 @@ export default function AddActivity({ navigation }) {
         { label: 'Yoga', value: 'Yoga' },
     ]);
 
-    const [date, setDate] = useState(null); // Track the date
+    const [date, setDate] = useState(new Date()); // Track the date
     const [duration, setDuration] = useState(''); // Track the duration
     const { theme } = useTheme(); // Use the useTheme hook to access the theme
     const [showDatePicker, setShowDatePicker] = useState(false); // Track if the date picker is open
+    const [isEditMode, setIsEditMode] = useState(false); // Track if the screen is in edit mode
+    const [special, setSpecial] = useState(false); // Track if the activity is special
+    const [isChecked, setChecked] = useState(false); // Track if the checkbox is checked
+
+    useEffect(() => {
+        if (route.params && route.params.item) {
+            const {type, duration, date, special} = route.params.item;
+            setType(type);
+            setDuration(duration.toString());
+            setDate(date);
+            setSpecial(special);
+            setIsEditMode(true);
+        }
+    }, [route.params?.item]);
 
     // Function to handle saving the activity
     const handleSave = () => {
@@ -42,9 +58,28 @@ export default function AddActivity({ navigation }) {
             date,
             special: (type === 'Running' || type === 'Weights') && durationNum > 60
         };
+        if (isEditMode) {
+            Alert.alert("Important", "Are you sure you want to save these changes?", [
+                {
+                    text: "No",
+                    style: "cancel"
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        if (special && isChecked) {
+                            newActivity.special = false;
+                        }
+                        updateDB(route.params.item.id, newActivity, 'activities');
+                        navigation.goBack();
+                    }
+                }
+            ]);
+        } else {
         writeToDB(newActivity, 'activities');
-        addActivity(newActivity);
         navigation.goBack();
+        }
+        
     };
     
 
@@ -54,10 +89,10 @@ export default function AddActivity({ navigation }) {
             <DropdownPicker
                 open={open}
                 value={type}
-                items={items}
+                items={sportTypes}
                 setOpen={setOpen}
                 setValue={setType}
-                setItems={setItems}
+                setItems={setSportTypes}
                 placeholder="Select an activity type"
                 zIndex={3000}
                 zIndexInverse={1000}
@@ -73,7 +108,13 @@ export default function AddActivity({ navigation }) {
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Date *</Text>
             <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker}/>
             
+            {!showDatePicker && isEditMode && special && <View style={commonStyles.checkbox}>
+                {<Text style={[commonStyles.text, {color: theme.textColor}]}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>}
+                {<Checkbox value={isChecked} onValueChange={setChecked}/>}
+            </View>}
+
             {!showDatePicker && <View style={commonStyles.buttonContainer}>
+              
               <PressableButton 
                 pressedFunction={()=>navigation.goBack()}
                 componentStyle={commonStyles.buttonStyle}

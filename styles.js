@@ -79,5 +79,11 @@ const commonStyles = StyleSheet.create({
         opacity: 0.2,
         borderRadius: 50,
     },
+    checkbox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: '82%',
+    },
 });
 export default commonStyles;

@@ -1,57 +1,71 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Alert, Text, StyleSheet } from 'react-native';
 import CalendarInput from '../Components/CalendarInput';
-import { Context } from '../Context'; 
 import { useTheme } from '../ThemeContext';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import commonStyles from '../styles';
 import PressableButton from '../Components/PressableButton';
-import { writeToDB } from '../Firebase/firebaseHelper';
+import { writeToDB, updateDB } from '../Firebase/firebaseHelper';
+import Checkbox from 'expo-checkbox';
 
-
-export default function AddDiet({ navigation }) {
-    const { addDiet } = useContext(Context); // Access addDiet from Context
-    const [description, setDescription] = useState(''); // Description input
-    const [calories, setCalories] = useState(''); // Calories input
-    const [date, setDate] = useState(null); // Date input 
+export default function AddDiet({ navigation, route }) {
+    const [description, setDescription] = useState('');
+    const [calories, setCalories] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [special, setSpecial] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
     const { theme } = useTheme();
-    const [showDatePicker, setShowDatePicker] = useState(false);
 
-    // Handle Save button press
+    useEffect(() => {
+        if (route.params?.item) {
+            const { description, calories, date, special } = route.params.item;
+            setDescription(description);
+            setCalories(calories.toString());
+            setDate(new Date(date));
+            setSpecial(special);
+            setIsEditMode(true);
+        }
+    }, [route.params?.item]);
+
     const handleSave = () => {
         const caloriesNum = parseInt(calories);
-
-        // Validate form input
-        if (!description || caloriesNum <= 0 || isNaN(caloriesNum) || !date) {
-            Alert.alert("Invalid Input", "Please enter a valid description, calories, and date.");
+        if (!description || caloriesNum <= 0 || isNaN(caloriesNum)) {
+            Alert.alert("Invalid Input", "Please enter a valid description and calories.");
             return;
         }
 
-        // Create new diet entry
         const newDiet = {
             description,
             calories: caloriesNum,
             date,
-            special: caloriesNum > 800 // Mark as special if calories > 800
+            special
         };
 
-        // Add diet to context
-        writeToDB(newDiet, 'diets');
-        addDiet(newDiet);
-
-        // Navigate back to the previous screen
-        navigation.goBack();
+        if (isEditMode) {
+            Alert.alert("Confirm", "Save changes to this diet entry?", [
+                { text: "Cancel", style: "cancel" },
+                { text: "Save", onPress: () => {
+                    if (special) {
+                        newDiet.special = false; // Optionally unset the special flag
+                    }
+                    updateDB(route.params.item.id, newDiet, 'diets');
+                    navigation.goBack();
+                }}
+            ]);
+        } else {
+            writeToDB(newDiet, 'diets');
+            navigation.goBack();
+        }
     };
 
     return (
         <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Description *</Text>
             <TextInput
-                style={[commonStyles.input, {height: 80}]}
+                style={commonStyles.input}
                 onChangeText={setDescription}
                 value={description}
                 multiline={true}
-                numberOfLines={4}  
+                numberOfLines={4}
             />
 
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Calories *</Text>
@@ -63,22 +77,27 @@ export default function AddDiet({ navigation }) {
             />
 
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Date *</Text>
-            <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker} />
+            <CalendarInput date={date} setDate={setDate} />
 
-            {!showDatePicker && <View style={commonStyles.buttonContainer}>
-            <PressableButton 
-                pressedFunction={()=>navigation.goBack()}
-                componentStyle={commonStyles.buttonStyle}
-                pressedStyle={commonStyles.pressedStyle}
-              >
-                <Text style={commonStyles.buttonText}>Cancel</Text>
-              </PressableButton>
-              <PressableButton
-                pressedFunction={handleSave}
-                componentStyle={commonStyles.buttonStyle}
-                pressedStyle={commonStyles.pressedStyle}
-              >
-                <Text style={commonStyles.buttonText}>Save</Text>
+            {isEditMode && <View style={commonStyles.row}>
+                <Checkbox value={special} onValueChange={setSpecial} />
+                <Text style={[commonStyles.text, {color: theme.textColor}]}>Mark as special?</Text>
+            </View>}
+
+            {!isEditMode && <View style={commonStyles.buttonContainer}>
+                <PressableButton 
+                    pressedFunction={() => navigation.goBack()}
+                    componentStyle={commonStyles.buttonStyle}
+                    pressedStyle={commonStyles.pressedStyle}
+                >
+                    <Text style={commonStyles.buttonText}>Cancel</Text>
+                </PressableButton>
+                <PressableButton
+                    pressedFunction={handleSave}
+                    componentStyle={commonStyles.buttonStyle}
+                    pressedStyle={commonStyles.pressedStyle}
+                >
+                    <Text style={commonStyles.buttonText}>Save</Text>
                 </PressableButton>
             </View>}
         </View>
@@ -90,5 +109,4 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
     },
-    
 });
