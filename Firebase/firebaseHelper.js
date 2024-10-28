@@ -2,6 +2,7 @@ import { collection, addDoc, deleteDoc, updateDoc, getDocs, query, onSnapshot, d
 import { database } from "./firebaseSetup";
 import { id } from "date-fns/locale";
 
+// Function to write a doc into a certain collection
 export async function writeToDB(data, collectionName) {
 	try {
 	    const docRef = await addDoc(collection(database, collectionName), data);
@@ -11,6 +12,7 @@ export async function writeToDB(data, collectionName) {
 	  }
     }
 
+// Function to delete a doc from a certain collection
 export async function deleteFromDB(id, collectionName) {
     try {
         await deleteDoc(doc(database, collectionName, id));
@@ -19,6 +21,7 @@ export async function deleteFromDB(id, collectionName) {
     }
 }
 
+// Function to update a doc in a certain collection
 export async function updateDB(id, updatedItem, collectionName) {
     try {
         const docRef = doc(database, collectionName, id);
@@ -28,7 +31,7 @@ export async function updateDB(id, updatedItem, collectionName) {
     }
 }
 
-
+// Function to read all docs from a certain collection with a listener
 export function readAllFromDBWithListener(collectionName, handleItems) {
     try {
         const q = query(collection(database, collectionName));
@@ -36,8 +39,7 @@ export function readAllFromDBWithListener(collectionName, handleItems) {
             const data = []; 
             querySnapshot.forEach((doc) => {
                 const docData = doc.data();
-                // Assuming 'date' is the field that holds the Timestamp object
-                // Check if the date field exists and is a Timestamp
+                // Check if the date field is a Timestamp
                 if (docData.date && typeof docData.date.toDate === 'function') {
                     docData.date = docData.date.toDate(); // Convert Timestamp to Date
                 }

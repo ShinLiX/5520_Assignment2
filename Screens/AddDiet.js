@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TextInput, Button, Alert, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Alert, Text, StyleSheet } from 'react-native';
 import CalendarInput from '../Components/CalendarInput';
 import { Context } from '../Context'; 
 import { useTheme } from '../ThemeContext';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import commonStyles from '../styles';
 import PressableButton from '../Components/PressableButton';
-import { writeToDB, readAllFromDB, updateDB } from '../Firebase/firebaseHelper';
+import { writeToDB, updateDB } from '../Firebase/firebaseHelper';
 import SaveChangesAlert from '../Components/SaveChangesAlert';
 import SpecialCheckbox from '../Components/SpecialCheckbox';
 
@@ -15,7 +14,7 @@ export default function AddDiet({ navigation, route }) {
     const { addDiet } = useContext(Context); // Access addDiet from Context
     const [description, setDescription] = useState(''); // Description input
     const [calories, setCalories] = useState(''); // Calories input
-    const [date, setDate] = useState(new Date()); // Date input 
+    const [date, setDate] = useState(); // Date input 
     const { theme } = useTheme();
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -26,6 +25,7 @@ export default function AddDiet({ navigation, route }) {
         setChecked(!isChecked);
     }
 
+    // Check if the screen is in edit mode by checking if there is an item in the route params
     useEffect(() => {
         if (route.params && route.params.item) {
             const {description, calories, date, special} = route.params.item;

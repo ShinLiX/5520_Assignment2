@@ -28,7 +28,7 @@ export default function AddActivity({ navigation, route }) {
         { label: 'Yoga', value: 'Yoga' },
     ]);
 
-    const [date, setDate] = useState(new Date()); // Track the date
+    const [date, setDate] = useState(null); // Track the date
     const [duration, setDuration] = useState(''); // Track the duration
     const { theme } = useTheme(); // Use the useTheme hook to access the theme
     const [showDatePicker, setShowDatePicker] = useState(false); // Track if the date picker is open
