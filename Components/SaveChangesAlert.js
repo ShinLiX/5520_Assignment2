@@ -1,7 +1,7 @@
 import React from 'react'
 import { Alert } from 'react-native'
 
-export default function SaveChangesAlert(special, isChecked, newItem, updateDB, navigation, route) {
+export default function SaveChangesAlert(itemType, special, isChecked, newItem, updateDB, navigation, route) {
   return (
     Alert.alert("Important", "Are you sure you want to save these changes?", [
         {
@@ -14,7 +14,7 @@ export default function SaveChangesAlert(special, isChecked, newItem, updateDB, 
                 if (special && isChecked) {
                     newItem.special = false;
                 }
-                updateDB(route.params.item.id, newActivity, 'activities');
+                updateDB(route.params.item.id, newItem, itemType);
                 navigation.goBack();
             }
         }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Text } from 'react-native'
-import Checkbox from '../Components/Checkbox'
+import Checkbox from 'expo-checkbox';
 import { useTheme } from '../ThemeContext';
-import { commonStyles } from '../styles/styles';
+import commonStyles from '../styles';
 
 export default function SpecialCheckbox({isChecked, checkHandler}) {
     const { theme } = useTheme();

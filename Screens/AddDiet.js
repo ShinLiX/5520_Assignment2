@@ -8,6 +8,7 @@ import commonStyles from '../styles';
 import PressableButton from '../Components/PressableButton';
 import { writeToDB, readAllFromDB, updateDB } from '../Firebase/firebaseHelper';
 import SaveChangesAlert from '../Components/SaveChangesAlert';
+import SpecialCheckbox from '../Components/SpecialCheckbox';
 
 export default function AddDiet({ navigation, route }) {
     //const [diet, setDiet] = useState({description: '', calories: '', date: null});
@@ -20,6 +21,10 @@ export default function AddDiet({ navigation, route }) {
     const [isEditMode, setIsEditMode] = useState(false);
     const [special, setSpecial] = useState(false);
     const [isChecked, setChecked] = useState(false);
+
+    function handleCheck() {
+        setChecked(!isChecked);
+    }
 
     useEffect(() => {
         if (route.params && route.params.item) {
@@ -50,7 +55,7 @@ export default function AddDiet({ navigation, route }) {
             special: caloriesNum > 800 // Mark as special if calories > 800
         };
         if (isEditMode) {
-            SaveChangesAlert(special, isChecked, newDiet, updateDB, navigation, route)
+            SaveChangesAlert('diets', special, isChecked, newDiet, updateDB, navigation, route)
         }
         // Add diet to context
         writeToDB(newDiet, 'diets');
@@ -83,6 +88,10 @@ export default function AddDiet({ navigation, route }) {
 
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Date *</Text>
             <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker} />
+
+            {!showDatePicker && isEditMode && special && <View style={commonStyles.buttonContainer}>
+                <SpecialCheckbox isChecked={isChecked} checkHandler={handleCheck} />
+            </View>}
 
             {!showDatePicker && <View style={commonStyles.buttonContainer}>
             <PressableButton 

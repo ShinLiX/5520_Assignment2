@@ -37,7 +37,7 @@ export default function AddActivity({ navigation, route }) {
     const [isChecked, setChecked] = useState(false); // Track if the checkbox is checked
 
     function handleCheck() {
-        setChecked(isChecked);
+        setChecked(!isChecked);
     }
     useEffect(() => {
         if (route.params && route.params.item) {
@@ -64,7 +64,7 @@ export default function AddActivity({ navigation, route }) {
             special: (type === 'Running' || type === 'Weights') && durationNum > 60
         };
         if (isEditMode) {
-            SaveChangesAlert(special, isChecked, newActivity, updateDB, navigation, route);
+            SaveChangesAlert('activities', special, isChecked, newActivity, updateDB, navigation, route);
         } else {
         writeToDB(newActivity, 'activities');
         navigation.goBack();
