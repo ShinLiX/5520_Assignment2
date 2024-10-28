@@ -83,7 +83,7 @@ const commonStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: '82%',
+        marginTop: 270,
     },
 });
 export default commonStyles;

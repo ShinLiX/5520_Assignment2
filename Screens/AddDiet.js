@@ -56,15 +56,10 @@ export default function AddDiet({ navigation, route }) {
         };
         if (isEditMode) {
             SaveChangesAlert('diets', special, isChecked, newDiet, updateDB, navigation, route)
+        } else {
+            writeToDB(newDiet, 'diets');
+            navigation.goBack();
         }
-        // Add diet to context
-        writeToDB(newDiet, 'diets');
-        
-
-        addDiet(newDiet);
-
-        // Navigate back to the previous screen
-        navigation.goBack();
     };
 
     return (
@@ -89,7 +84,7 @@ export default function AddDiet({ navigation, route }) {
             <Text style={[commonStyles.text, {color: theme.textColor}]}>Date *</Text>
             <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker} />
 
-            {!showDatePicker && isEditMode && special && <View style={commonStyles.buttonContainer}>
+            {!showDatePicker && isEditMode && special && <View style={commonStyles.checkbox}>
                 <SpecialCheckbox isChecked={isChecked} checkHandler={handleCheck} />
             </View>}
 

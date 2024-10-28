@@ -19,7 +19,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import EditActivity from './Screens/EditActivity';
 import EditDiet from './Screens/EditDiet';
 import { deleteFromDB } from './Firebase/firebaseHelper';
-import { de } from 'date-fns/locale';
+import HandleDeleteItem from './Components/HandleDeleteItem';
 
 // Create the Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -63,16 +63,7 @@ function ActivitiesStack() {
            title: 'Edit',
            headerRight: () => (
              <PressableButton
-                pressedFunction={() => {
-                  Alert.alert('Delete', 'Are you sure you want to delete this item?', [
-                    {text: 'No', style: 'cancel'},
-                    {text: 'Yes', onPress: () => {
-                      deleteFromDB(route.params.item.id, 'activities')
-                      .then(() => navigation.goBack())
-                      .catch((error) => console.log('Error deleting document: ', error))}
-                    }
-                  ]);
-                }}
+                pressedFunction={() => HandleDeleteItem(route, navigation, 'activities')}
                 componentStyle={{backgroundColor: '#420c6e'}}
                 pressedStyle={commonStyles.pressedIcon}
               >
@@ -118,20 +109,11 @@ function DietsStack() {
       <Stack.Screen
         name="EditDietScreen"
         component={EditDiet}
-        options={({route}) => ({
+        options={({route, navigation}) => ({
            title: 'Edit',
            headerRight: () => (
              <PressableButton
-                pressedFunction={() => {
-                  Alert.alert('Delete', 'Are you sure you want to delete this item?', [
-                    {text: 'No', style: 'cancel'},
-                    {text: 'Yes', onPress: () => {
-                      deleteFromDB(route.params.item.id, 'diets')
-                      .then(() => navigation.goBack())
-                      .catch((error) => console.log('Error deleting document: ', error))}
-                    }
-                  ]);
-                }}
+                pressedFunction={() => HandleDeleteItem(route, navigation, 'diets')}
                 componentStyle={{backgroundColor: '#420c6e'}}
                 pressedStyle={commonStyles.pressedIcon}
               >
