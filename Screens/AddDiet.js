@@ -31,7 +31,7 @@ export default function AddDiet({ navigation, route }) {
             const {description, calories, date, special} = route.params.item;
             setDescription(description);
             setCalories(calories.toString());
-            setDate(date);
+            setDate(new Date(date));
             setSpecial(special);
             setIsEditMode(true);
         }

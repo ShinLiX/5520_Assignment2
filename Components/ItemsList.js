@@ -27,7 +27,7 @@ export default function ItemsList({ type, navigation }) {
                 <PressableButton
                     pressedFunction={() => {
                         const screen = type === 'diets' ? 'EditDietScreen' : 'EditActivityScreen';
-                        navigation.navigate(screen, { item });
+                        navigation.navigate(screen, { item: {...item, date: item.date.toISOString()} });
                     }}
                     componentStyle={{ backgroundColor: 'transparent' }}
                 >

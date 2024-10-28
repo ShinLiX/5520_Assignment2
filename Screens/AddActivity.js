@@ -44,7 +44,7 @@ export default function AddActivity({ navigation, route }) {
             const {type, duration, date, special} = route.params.item;
             setType(type);
             setDuration(duration.toString());
-            setDate(date);
+            setDate(new Date(date));
             setSpecial(special);
             setIsEditMode(true);
         }
