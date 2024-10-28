@@ -4,6 +4,6 @@ import AddDiet from './AddDiet'
 
 export default function EditDiet({navigation, route}) {
   return (
-    <AddDiet />
+    <AddDiet navigation={navigation} route={route} />
   )
 }
