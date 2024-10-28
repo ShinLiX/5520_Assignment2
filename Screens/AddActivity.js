@@ -12,6 +12,8 @@ import PressableButton from '../Components/PressableButton';
 import { writeToDB, updateDB } from '../Firebase/firebaseHelper';
 import { ro } from 'date-fns/locale';
 import Checkbox from 'expo-checkbox';
+import SaveChangesAlert from '../Components/SaveChangesAlert';
+import SpecialCheckbox from '../Components/SpecialCheckbox';
 
 // AddActivity component
 export default function AddActivity({ navigation, route }) {
@@ -34,6 +36,9 @@ export default function AddActivity({ navigation, route }) {
     const [special, setSpecial] = useState(false); // Track if the activity is special
     const [isChecked, setChecked] = useState(false); // Track if the checkbox is checked
 
+    function handleCheck() {
+        setChecked(isChecked);
+    }
     useEffect(() => {
         if (route.params && route.params.item) {
             const {type, duration, date, special} = route.params.item;
@@ -59,22 +64,7 @@ export default function AddActivity({ navigation, route }) {
             special: (type === 'Running' || type === 'Weights') && durationNum > 60
         };
         if (isEditMode) {
-            Alert.alert("Important", "Are you sure you want to save these changes?", [
-                {
-                    text: "No",
-                    style: "cancel"
-                },
-                {
-                    text: "Yes",
-                    onPress: () => {
-                        if (special && isChecked) {
-                            newActivity.special = false;
-                        }
-                        updateDB(route.params.item.id, newActivity, 'activities');
-                        navigation.goBack();
-                    }
-                }
-            ]);
+            SaveChangesAlert(special, isChecked, newActivity, updateDB, navigation, route);
         } else {
         writeToDB(newActivity, 'activities');
         navigation.goBack();
@@ -109,8 +99,7 @@ export default function AddActivity({ navigation, route }) {
             <CalendarInput date={date} setDate={setDate} datePicker={showDatePicker} datePickerHandler={setShowDatePicker}/>
             
             {!showDatePicker && isEditMode && special && <View style={commonStyles.checkbox}>
-                {<Text style={[commonStyles.text, {color: theme.textColor}]}>This item is marked as special. Select the checkbox if you would like to approve it.</Text>}
-                {<Checkbox value={isChecked} onValueChange={setChecked}/>}
+                <SpecialCheckbox isChecked={isChecked} checkHandler={handleCheck} />
             </View>}
 
             {!showDatePicker && <View style={commonStyles.buttonContainer}>
