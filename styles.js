@@ -20,6 +20,7 @@ const commonStyles = StyleSheet.create({
     buttonContainer: {
         position: 'absolute',
         bottom: 30,
+        left: 20,
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
@@ -46,12 +47,43 @@ const commonStyles = StyleSheet.create({
         margin: 2,
         padding: 6,
         paddingHorizontal: 10,
-        minWidth: 90,
+        minWidth: 100,
         alignItems: 'center',
+        
     },
     dataContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
+    },
+    buttonStyle: {
+        backgroundColor: '#754ba6',
+        padding: 10,
+        borderRadius: 5,
+        minwidth: 100,
+        alignItems: 'center',
+    },
+    pressedStyle: {
+        backgroundColor: '#754ba6',
+        opacity: 0.2,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 15,
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        borderRadius: 5,
+    },
+    pressedIcon: {
+        backgroundColor: '#754ba6',
+        opacity: 0.2,
+        borderRadius: 50,
+    },
+    checkbox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 270,
     },
 });
 export default commonStyles;
